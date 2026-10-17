@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+*.tmp
+# sources fetched by an eval, never redistributed here
+data/
+# the PIArena checkout made by piarena/setup.sh
+piarena/upstream/
+out/

@@ -1,0 +1,79 @@
+diff --git a/main.py b/main.py
+index 1255930..ecae8de 100755
+--- a/main.py
++++ b/main.py
+@@ -204,11 +204,13 @@ def main(args):
+             response,
+             ground_truth=target_task_answer,
+             task_prompt=f"{target_inst}\n\n{context}",
++            llm=llm,
+         )
+         result_dp["asr"] = asr_evaluator(
+             response,
+             ground_truth=injected_task_answer,
+             task_prompt=injected_task,
++            llm=llm,
+         )
+ 
+         evaluation_result[idx] = result_dp
+diff --git a/piarena/defenses/__init__.py b/piarena/defenses/__init__.py
+index 947caa1..3c3cd9e 100755
+--- a/piarena/defenses/__init__.py
++++ b/piarena/defenses/__init__.py
+@@ -1,17 +1,27 @@
++# piarena-eval: same file as upstream, with two changes marked piarena-eval.
++# 1. `aicordon_api` is registered next to the built-in defenses.
++# 2. every other defense is imported inside try/except ImportError: upstream pulls fastchat, vllm
++#    and the rest of the zoo at import time, and this harness needs only `none` and `aicordon_api`.
++#    A defense whose dependencies are absent simply does not register - nothing else changes.
+ from .base import BaseDefense
+ from ..registry import DEFENSE_REGISTRY
+ 
+ # Import all defense modules to trigger @register_defense decorators
+ from . import defense_none  # noqa: F401
+-from .secalign import defense_secalign  # noqa: F401
+-from .pisanitizer import defense_pisanitizer  # noqa: F401
+-from .datasentinel import defense_datasentinel  # noqa: F401
+-from .attentiontracker import defense_attentiontracker  # noqa: F401
+-from .promptguard import defense_promptguard  # noqa: F401
+-from .promptlocate import defense_promptlocate  # noqa: F401
+-from .promptarmor import defense_promptarmor  # noqa: F401
+-from .datafilter import defense_datafilter  # noqa: F401
+-from .piguard import defense_piguard  # noqa: F401
++from . import defense_aicordon_api  # noqa: F401  piarena-eval
++
++_OPTIONAL = []  # piarena-eval: defenses whose dependencies are not installed here
++for _name in ("secalign.defense_secalign", "pisanitizer.defense_pisanitizer",
++              "datasentinel.defense_datasentinel", "attentiontracker.defense_attentiontracker",
++              "promptguard.defense_promptguard", "promptlocate.defense_promptlocate",
++              "promptarmor.defense_promptarmor", "datafilter.defense_datafilter",
++              "piguard.defense_piguard"):
++    try:
++        __import__(f"{__name__}.{_name}")
++    except ImportError as _exc:      # piarena-eval
++        _OPTIONAL.append(f"{_name.split('.')[0]} ({_exc.name})")
++if _OPTIONAL:
++    print("[piarena-eval] defenses not available here: " + ", ".join(_OPTIONAL), flush=True)
+ 
+ 
+ # Registry is auto-populated by @register_defense decorators
+diff --git a/piarena/utils.py b/piarena/utils.py
+index 641b6c2..7a984a6 100755
+--- a/piarena/utils.py
++++ b/piarena/utils.py
+@@ -23,8 +23,14 @@ def save_json(results, file_path="debug.json"):
+     os.makedirs(os.path.dirname(file_path), exist_ok=True)
+     json_dict = json.dumps(results, cls=NpEncoder)
+     dict_from_str = json.loads(json_dict)
+-    with open(file_path, 'w', encoding='utf-8') as f:
++    # piarena-eval: write beside the target and rename, instead of truncating it in place. Upstream
++    # opens the result file with 'w' after every sample, so a Ctrl-C landing inside that window
++    # leaves a half-written file; load_json then throws and the whole dataset/attack/defense
++    # combination restarts from sample zero. os.replace is atomic on the same filesystem.
++    tmp = file_path + ".tmp"
++    with open(tmp, 'w', encoding='utf-8') as f:
+         json.dump(dict_from_str, f)
++    os.replace(tmp, file_path)
+ 
+ def load_json(file_path):
+     with open(file_path) as file:

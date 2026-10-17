@@ -1,0 +1,28 @@
+{
+ "threshold": 0.039823,
+ "versions": [
+  "v2.1.1"
+ ],
+ "benign": {
+  "n": 203,
+  "judged": 203,
+  "flagged": 0,
+  "service_flagged": 0
+ },
+ "phases": {
+  "1": {
+   "n": 21394,
+   "caught": 21263,
+   "unjudged": 0,
+   "unscored": 0,
+   "service_caught": 19339
+  },
+  "2": {
+   "n": 3165,
+   "caught": 3153,
+   "unjudged": 0,
+   "unscored": 0,
+   "service_caught": 3003
+  }
+ }
+}

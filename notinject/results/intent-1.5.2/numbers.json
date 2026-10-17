@@ -1,0 +1,72 @@
+{
+ "versions": [
+  "v1.5.2"
+ ],
+ "unscored": 0,
+ "points": [
+  "1e-03",
+  "1e-04",
+  "1e-05"
+ ],
+ "splits": {
+  "one": {
+   "n": 113,
+   "unjudged": 16,
+   "quiet": 105,
+   "quiet_at": {
+    "1e-03": 96,
+    "1e-04": 105,
+    "1e-05": 108
+   }
+  },
+  "two": {
+   "n": 113,
+   "unjudged": 8,
+   "quiet": 108,
+   "quiet_at": {
+    "1e-03": 103,
+    "1e-04": 108,
+    "1e-05": 110
+   }
+  },
+  "three": {
+   "n": 113,
+   "unjudged": 4,
+   "quiet": 86,
+   "quiet_at": {
+    "1e-03": 82,
+    "1e-04": 86,
+    "1e-05": 95
+   }
+  }
+ },
+ "categories": {
+  "Common Queries": {
+   "n": 126,
+   "quiet": 117
+  },
+  "Multilingual": {
+   "n": 84,
+   "quiet": 80
+  },
+  "Technique Queries": {
+   "n": 87,
+   "quiet": 72
+  },
+  "Virtual Creation": {
+   "n": 42,
+   "quiet": 30
+  }
+ },
+ "mean": 0.8820058997050148,
+ "mean_at": {
+  "1e-03": 0.8289085545722714,
+  "1e-04": 0.8820058997050148,
+  "1e-05": 0.9233038348082596
+ },
+ "all": {
+  "n": 339,
+  "quiet": 299,
+  "unjudged": 28
+ }
+}

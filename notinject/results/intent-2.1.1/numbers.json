@@ -1,0 +1,67 @@
+{
+ "versions": [
+  "v2.1.1"
+ ],
+ "unscored": 0,
+ "points": [
+  "fpr_1e-03",
+  "fpr_1e-04"
+ ],
+ "splits": {
+  "one": {
+   "n": 113,
+   "unjudged": 0,
+   "quiet": 98,
+   "quiet_at": {
+    "fpr_1e-03": 32,
+    "fpr_1e-04": 98
+   }
+  },
+  "two": {
+   "n": 113,
+   "unjudged": 0,
+   "quiet": 107,
+   "quiet_at": {
+    "fpr_1e-03": 68,
+    "fpr_1e-04": 107
+   }
+  },
+  "three": {
+   "n": 113,
+   "unjudged": 0,
+   "quiet": 74,
+   "quiet_at": {
+    "fpr_1e-03": 20,
+    "fpr_1e-04": 74
+   }
+  }
+ },
+ "categories": {
+  "Common Queries": {
+   "n": 126,
+   "quiet": 113
+  },
+  "Multilingual": {
+   "n": 84,
+   "quiet": 72
+  },
+  "Technique Queries": {
+   "n": 87,
+   "quiet": 58
+  },
+  "Virtual Creation": {
+   "n": 42,
+   "quiet": 36
+  }
+ },
+ "mean": 0.8230088495575222,
+ "mean_at": {
+  "fpr_1e-03": 0.3539823008849558,
+  "fpr_1e-04": 0.8230088495575222
+ },
+ "all": {
+  "n": 339,
+  "quiet": 279,
+  "unjudged": 0
+ }
+}
